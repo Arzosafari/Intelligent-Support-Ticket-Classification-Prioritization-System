@@ -1,0 +1,15 @@
+{
+  "source_split": "validation",
+  "error_count": 0,
+  "confusion_pairs": [],
+  "examples": [],
+  "short_text_errors": 0,
+  "per_class_errors": {},
+  "next_experiments": [
+    "Audit validation confusion pairs for ambiguous taxonomy and label errors.",
+    "Inspect template groups and time/customer grouping before deployment.",
+    "Collect rare-class and short-message labels; measure class recall changes.",
+    "Evaluate calibration and review thresholds on separate validation labels."
+  ],
+  "caution": "No automated label-error diagnosis; do not tune against final test errors."
+}

@@ -1,0 +1,34 @@
+name: Lightweight checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements.lock
+      - run: pip install --no-deps --no-build-isolation -e .
+      - run: pip check
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: pytest -q
+      - run: |
+          support-ticket make-fixture
+          support-ticket train --data data/raw/synthetic.csv --out reports/runs/ci
+      - name: Container smoke test (synthetic artifact)
+        run: |
+          docker build -t support-ticket:ci .
+          docker run -d --name ticket-api -p 8000:8000 -v "$PWD/reports/runs/ci/artifact:/models:ro" support-ticket:ci
+          for attempt in $(seq 1 30); do
+            if curl --fail http://localhost:8000/ready; then break; fi
+            sleep 2
+          done
+          curl --fail http://localhost:8000/ready
+          curl --fail -H 'Content-Type: application/json' -d '{"text":"invoice charge"}' http://localhost:8000/predict
+          docker logs ticket-api
+          docker stop ticket-api
