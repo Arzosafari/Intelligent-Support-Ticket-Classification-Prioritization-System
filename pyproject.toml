@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools==75.6.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "intelligent-support-ticket-system"
+version = "0.1.0"
+description = "Reproducible, human-in-the-loop support ticket classification"
+requires-python = ">=3.11,<3.13"
+dependencies = ["numpy==2.2.6", "pandas==2.2.3", "scikit-learn==1.6.1", "scipy==1.15.3", "joblib==1.4.2", "fastapi==0.115.12", "pydantic==2.11.5", "uvicorn==0.34.2", "PyYAML==6.0.2", "matplotlib==3.10.3"]
+
+[project.optional-dependencies]
+dev = ["pytest==8.3.5", "httpx==0.28.1", "ruff==0.11.11"]
+
+[project.scripts]
+support-ticket = "support_ticket.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.setuptools.package-data]
+"support_ticket.api" = ["logging.json"]

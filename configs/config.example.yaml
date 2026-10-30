@@ -1,0 +1,28 @@
+dataset_id: synthetic-demo-v1
+synthetic: true
+# Set synthetic: false ONLY for real data with a verified license/provenance.
+source_license: synthetic project fixture; not real customer data
+columns:
+  ticket_id: ticket_id
+  ticket_text: ticket_text
+  category: category
+  # priority: priority
+  # created_at: created_at
+category_mapping: {}
+# Set to an explicit allowlist after inspecting real labels, or null to discover labels.
+categories: null
+priority_enabled: false
+priority_labels_verified: false
+priority_mapping: {}
+priorities: null
+seed: 42
+mask_pii: true
+lowercase: false
+max_text_length: 10000
+word_ngram_max: 2
+character_ngrams: true
+min_df: 1
+max_features: 30000
+# Operational demonstration threshold, NOT tuned or calibrated; always review by default.
+review_threshold: 0.7
+always_review: true
